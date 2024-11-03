@@ -2,6 +2,7 @@
 #define PEACHCOMPILER_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 struct pos
 {
@@ -77,4 +78,20 @@ enum
     COMPILER_FAILED_WITH_ERRORS
 };
 
-#endif 
+struct compile_process
+{
+    int flags;
+    struct pos pos;
+    struct compile_process_input_file
+    {
+        FILE* fp;
+        const char* abs_path;
+    } cfile;
+
+    FILE* ofile;
+};
+
+int compile_file(const char* filename, const char* out_filename, int flags);
+struct compile_process *compile_process_create(const char *filename, const char *filename_out, int flags);
+
+#endif
