@@ -8,7 +8,7 @@ struct pos
 {
     int line;
     int col;
-    const char* filename;
+    const char *filename;
 };
 
 enum
@@ -30,11 +30,11 @@ struct token
     union // shared memory; only one settable to save memory
     {
         char cval;
-        const char* sval;
+        const char *sval;
         unsigned int inum;
         unsigned long lnum;
         unsigned long long llnum;
-        void* any;
+        void *any;
     };
 
     // whitespace between token and next token?
@@ -46,9 +46,9 @@ struct token
 };
 
 struct lex_process;
-typedef char (*LEX_PROCESS_NEXT_CHAR)(struct lex_process* process);
-typedef char (*LEX_PROCESS_PEEK_CHAR)(struct lex_process* process);
-typedef void (*LEX_PROCESS_PUSH_CHAR)(struct lex_process* process, char c);
+typedef char (*LEX_PROCESS_NEXT_CHAR)(struct lex_process *process);
+typedef char (*LEX_PROCESS_PEEK_CHAR)(struct lex_process *process);
+typedef void (*LEX_PROCESS_PUSH_CHAR)(struct lex_process *process, char c);
 struct lex_process_functions
 {
     LEX_PROCESS_NEXT_CHAR next_char;
@@ -59,17 +59,17 @@ struct lex_process_functions
 struct lex_process
 {
     struct pos pos;
-    struct vector* token_vev;
-    struct compile_process* compiler;
+    struct vector *token_vev;
+    struct compile_process *compiler;
 
     // how many brackets are there at the moment?
     // e.g. ((50)) => 2
     int current_expression_count;
-    struct buffer* parentheses_buffer;
-    struct lex_process_functions* function;
+    struct buffer *parentheses_buffer;
+    struct lex_process_function *function;
 
     // data the lexer does not understand (but lexers' user does)
-    void* private;
+    void *private;
 };
 
 enum
