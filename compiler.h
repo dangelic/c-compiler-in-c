@@ -37,9 +37,42 @@ struct token
     };
 
     // whitespace between token and next token?
-    // e.g. *     a -> true for a
+    // e.g. *     a => true for a
     bool whitespace;
 
     // (1+2+3); for debugging
     const char* between_brackets;
+};
+
+struct lex_process;
+typedef char (*LEX_PROCESS_NEXT_CHAR)(struct lex_process* process);
+typedef char (*LEX_PROCESS_PEEK_CHAR)(struct lex_process* process);
+typedef void (*LEX_PROCESS_PUSH_CHAR)(struct lex_process* process, char c);
+struct lex_process_functions
+{
+    LEX_PROCESS_NEXT_CHAR next_char;
+    LEX_PROCESS_PEEK_CHAR peek_char;
+    LEX_PROCESS_PUSH_CHAR push_char;
+};
+
+struct lex_process
+{
+    struct pos pos;
+    struct vector* token_vev;
+    struct compile_process* compiler;
+
+    // how many brackets are there at the moment?
+    // e.g. ((50)) => 2
+    int current_expression_count;
+    struct buffer* parentheses_buffer;
+    struct lex_process_functions* function;
+
+    // data the lexer does not understand (but lexers' user does)
+    void* private;
+};
+
+enum
+{
+    COMPILER_FILE_COMPILED_OK,
+    COMPILER_FAILED_WITH_ERRORS
 };
