@@ -1,13 +1,28 @@
-CC = gcc
+OBJECTS= ./build/compiler.o ./build/cprocess.o ./build/validator.o ./build/rdefault.o ./build/lexer.o ./build/token.o ./build/lex_process.o ./build/parser.o ./build/scope.o ./build/symresolver.o ./build/codegen.o ./build/stackframe.o ./build/resolver.o ./build/fixup.o ./build/array.o ./build/datatype.o ./build/node.o ./build/expressionable.o ./build/helper.o ./build/helpers/buffer.o ./build/helpers/vector.o ./build/preprocessor/preprocessor.o ./build/preprocessor/static-include.o ./build/preprocessor/static-includes/stdarg.o ./build/preprocessor/static-includes/stddef.o ./build/preprocessor/native.o
+INCLUDES= -I./
 
-CFLAGS = -Wall -Wextra -std=c11
+all: ${OBJECTS}
+	gcc main.c ${INCLUDES} ${OBJECTS} -g -o ./main 
 
-TARGET = hello
+./build/compiler.o: ./compiler.c
+	gcc compiler.c  ${INCLUDES} -o ./build/compiler.o -g -c
 
-all: $(TARGET)
+./build/cprocess.o: ./cprocess.c
+	gcc cprocess.c ${INCLUDES} -o ./build/cprocess.o -g -c
 
-$(TARGET): hello.c
-	$(CC) $(CFLAGS) -o $(TARGET) hello.c
+./build/lexer.o: ./lexer.c
+	gcc lexer.c ${INCLUDES} -o ./build/lexer.o -g -c
+
+./build/lex_process.o: ./lex_process.c
+	gcc lex_process.c ${INCLUDES} -o ./build/lex_process.o -g -c
+
+./build/helpers/buffer.o: ./helpers/buffer.c
+	gcc ./helpers/buffer.c ${INCLUDES} -o ./build/helpers/buffer.o -g -c
+
+
+./build/helpers/vector.o: ./helpers/vector.c
+	gcc ./helpers/vector.c ${INCLUDES} -o ./build/helpers/vector.o -g -c
 
 clean:
-	rm -f $(TARGET)
+	rm ./main
+	rm -rf ${OBJECTS}

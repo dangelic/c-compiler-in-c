@@ -2,7 +2,8 @@
 #include "stdlib.h"
 #include "helpers/vector.h"
 
-struct lex_process* lex_process_create(struct compile_process *compiler, struct lex_process_functions *functions, void *private) {
+struct lex_process* lex_process_create(struct compile_process *compiler, struct lex_process_functions *functions, void *private) 
+{
     struct lex_process *process = calloc(1, sizeof(struct lex_process));
     process->function = functions;
     process->token_vec = vector_create(sizeof(struct token));
@@ -13,15 +14,18 @@ struct lex_process* lex_process_create(struct compile_process *compiler, struct 
     return process;
 }
 
-void lex_process_free(struct lex_process *process) {
+void lex_process_free(struct lex_process *process) 
+{
     vector_free(process->token_vec);
     free(process);
 }
 
-void* lex_process_private(struct lex_process *process) {
+void* lex_process_private(struct lex_process *process) 
+{
     return process->private;
 }
 
-void* lex_process_tokens(struct lex_process *process) {
+void* lex_process_tokens(struct lex_process *process) 
+{
     return process->token_vec;
 }
