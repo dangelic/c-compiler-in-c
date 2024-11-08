@@ -42,7 +42,7 @@ struct token
     bool whitespace;
 
     // (1+2+3); for debugging
-    const char* between_brackets;
+    const char *between_brackets;
 };
 
 struct lex_process;
@@ -59,7 +59,7 @@ struct lex_process_functions
 struct lex_process
 {
     struct pos pos;
-    struct vector *token_vev;
+    struct vector *token_vec;
     struct compile_process *compiler;
 
     // how many brackets are there at the moment?
@@ -84,18 +84,38 @@ struct compile_process
     struct pos pos;
     struct compile_process_input_file
     {
-        FILE* fp;
-        const char* abs_path;
+        FILE *fp;
+        const char *abs_path;
     } cfile;
 
-    FILE* ofile;
+    FILE *ofile;
 };
 
-int compile_file(const char* filename, const char* out_filename, int flags);
+int compile_file(const char *filename, const char *out_filename, int flags);
 struct compile_process *compile_process_create(const char *filename, const char *filename_out, int flags);
 
-char compile_process_next_char(struct lex_process* lex_process);
-char compile_process_peek_char(struct lex_process* lex_process);
-void compile_process_push_char(struct lex_process* lex_process, char c);
+char compile_process_next_char(struct lex_process *lex_process);
+char compile_process_peek_char(struct lex_process *lex_process);
+void compile_process_push_char(struct lex_process *lex_process, char c);
+
+#include "compiler.h"
+#include "stdlib.h"
+#include "helpers/vector.h"
+
+struct lex_process* lex_process_create(struct compile_process *compiler, struct lex_process_functions *functions, void *private) {
+    struct lex_process *process = calloc(1, sizeof(struct lex_process));
+    process->function = functions;
+    process->token_vec = vector_create(sizeof(struct token));
+    process->compiler = compiler;
+    process->private = private;
+    process->pos.line = 1;
+    process->pos.col = 1;
+    return process;
+}
+
+void lex_process_free(struct lex_process *process);
+void* lex_process_private(struct lex_process *process);
+void* lex_process_tokens(struct lex_process *process);
+
 
 #endif
