@@ -1,4 +1,4 @@
-OBJECTS= ./build/compiler.o ./build/cprocess.o ./build/validator.o ./build/rdefault.o ./build/lexer.o ./build/token.o ./build/lex_process.o ./build/parser.o ./build/scope.o ./build/symresolver.o ./build/codegen.o ./build/stackframe.o ./build/resolver.o ./build/fixup.o ./build/array.o ./build/datatype.o ./build/node.o ./build/expressionable.o ./build/helper.o ./build/helpers/buffer.o ./build/helpers/vector.o ./build/preprocessor/preprocessor.o ./build/preprocessor/static-include.o ./build/preprocessor/static-includes/stdarg.o ./build/preprocessor/static-includes/stddef.o ./build/preprocessor/native.o
+OBJECTS= ./build/compiler.o ./build/cprocess.o ./build/helpers/buffer.o ./build/helpers/vector.o ./build/lexer.o ./build/lex_process.o
 INCLUDES= -I./
 
 all: ${OBJECTS}
