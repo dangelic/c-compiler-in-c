@@ -72,7 +72,7 @@ struct lex_process
     // e.g. ((50)) => 2
     int current_expression_count;
     struct buffer *parentheses_buffer;
-    struct lex_process_function *function;
+    struct lex_process_functions *function;
 
     // data the lexer does not understand (but lexers' user does)
     void *private;
@@ -104,25 +104,11 @@ char compile_process_next_char(struct lex_process *lex_process);
 char compile_process_peek_char(struct lex_process *lex_process);
 void compile_process_push_char(struct lex_process *lex_process, char c);
 
-#include "compiler.h"
-#include "stdlib.h"
-#include "helpers/vector.h"
-
-struct lex_process* lex_process_create(struct compile_process *compiler, struct lex_process_functions *functions, void *private) {
-    struct lex_process *process = calloc(1, sizeof(struct lex_process));
-    process->function = functions;
-    process->token_vec = vector_create(sizeof(struct token));
-    process->compiler = compiler;
-    process->private = private;
-    process->pos.line = 1;
-    process->pos.col = 1;
-    return process;
-}
+struct lex_process* lex_process_create(struct compile_process* compiler, struct lex_process_functions* functions, void* private);
 
 void lex_process_free(struct lex_process *process);
 void* lex_process_private(struct lex_process *process);
 void* lex_process_tokens(struct lex_process *process);
-
 int lex(struct lex_process *process);
 
 #endif
