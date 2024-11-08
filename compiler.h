@@ -111,4 +111,7 @@ void* lex_process_private(struct lex_process *process);
 void* lex_process_tokens(struct lex_process *process);
 int lex(struct lex_process *process);
 
+void compiler_error(struct compile_process *compiler, const char *msg, ...);
+void compiler_warning(struct compile_process *compiler, const char *msg, ...);
+
 #endif
